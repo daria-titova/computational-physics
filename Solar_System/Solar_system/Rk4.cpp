@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include <solar_system.h>
+#include <fstream>
 using namespace std;
 
 
@@ -107,9 +108,17 @@ void RK4::integrate_RK4(Solar_System &system, double dt, int n)
           }
          }
 
-    for (int i=0; i<n; i++)
+  /* for (int i=0; i<n; i++)
     {for (int j=0; j<2; j++)
-        {cout<<position[i][j]<<"  "<<velocity[i][j]<<"  ";}cout<<endl;}
+        {cout<<position[i][j]<<"  "<<velocity[i][j]<<"  ";}cout<<endl;}*/
+
+    for (int i=0; i<n; i++)
+          {
+        ofstream myfile; //write results into txt file in order to be able to build a plot
+        myfile.open ("en_1000.txt");  //the wave function
+        for (int i=0; i<n; i++)
+           myfile <<0+i*dt<<" "<<kinetik_energy[i]+potential_energy[i]<<endl;
+           myfile.close();}
 
 return;
 }
