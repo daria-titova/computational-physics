@@ -19,29 +19,32 @@ int main()
     cin>>m;
 
     //define steps for t and x:
-    double dt=(t_final-t_begin)/n;
-    double dx=(b-a)/m;
+    double dt=(t_final-t_begin)/(n-1);
+    double dx=(b-a)/(m-1);
     double alpha=dt/(dx*dx);
     cout<<"alpha="<<alpha<<endl;
+    cout<<"dt="<<dt<<endl;
+    cout<<"dx="<<dx<<endl;
 
     //create array U
     mat U(n,m);
 
-    //initial conditions
+    //boundary conditions
     U.col(0).ones();
     U.col(m-1).zeros();
+    //initial conditions
     U.row(0).zeros();
    // U.print();
 
 
     Explicit method;
-   // method.Explicit_Scheme(U, alpha, n, m);
+    method.Explicit_Scheme(U, alpha, n, m);
 
     Implicit solve;
-   // solve.Implicit_Scheme(U, alpha, n, m);
+    solve.Implicit_Scheme(U, alpha, n, m);
 
     Crank_Nicolson result;
-   // result.Crank_Nicolson_Scheme(U, alpha, n, m);
+    result.Crank_Nicolson_Scheme(U, alpha, n, m);
 
     Closed_form test;
     test.Closed_form_solution(n, m, t_final, dx);

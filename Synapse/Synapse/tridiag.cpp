@@ -32,7 +32,7 @@ void tridiag::tridiag_solver(mat &A, vec &V, int m)
             else f1(i)=(V(i)-a(i)*f1(i-1))/(b(i)-a(i)*c1(i-1));}
 
     //backward substitution
-        for (int i=m-1; i>=0; i--){      //solve the set, find the solution
+        for (int i=m-1; i>=0; i--){
             if (i==m-1) V(i)=f1(i);
                 else V(i)=f1(i)-c1(i)*V(i+1);}
 

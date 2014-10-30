@@ -24,21 +24,34 @@ void Crank_Nicolson::Crank_Nicolson_Scheme(mat &U, double alpha, int n, int m)
     mat A(m,m);
     A=2*I+alpha*B;
 
-    int j=0;
+    vec V_new(m);
+    vec V1=V;
+
+    int j=1;
     while (j<n)
 
    /* { V=inv(2*I+alpha*B)*(2*I-alpha*B)*V;
-      V(0)=1.0; //initial condition
+      V(0)=1.0; //boundary condition for x=0;
       j++;}*/
 
-    {V=(2*I-alpha*B)*V;
+    {   // V=(2*I-alpha*B)*V;
+         //V.print();
+
+        for (int i=0; i<m; i++)
+        {if (i==0) V_new(i)=(2.0 - 2.0*alpha)*V(i) + alpha*V(i+1);
+            else{ if (i<(m-1)) V_new(i)=alpha*V(i-1) + (2.0 - 2.0*alpha)*V(i) + alpha*V(i+1);
+                 else V_new(i)=alpha*V(i-1) + (2.0 - 2.0*alpha)*V(i);}
+            } V=V_new;
+           //V.print();
+
      tridiag solve;
-        solve.tridiag_solver(A, V, m);
-        V(0)=1.0; //initial condition
+     solve.tridiag_solver(A, V, m);
+        V(0)=1.0;   //boundary condition for x=0;
+        V(m-1)=0.0; //boundary condition for x=L=1;
+       // V.print();
     j++;}
 
-    cout<<"Crank-Nicolson="<<endl;
-    V.print();
+    V.print("Crank-Nicolson=");
 
 return;}
 
